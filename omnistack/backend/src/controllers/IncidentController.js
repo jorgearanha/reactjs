@@ -43,12 +43,13 @@ module.exports = {
     const ong_id = request.headers.authorization;
 
     const incident = await connection("incidents")
-      .where("id", id)
-      .select("ong_id")
-      .catch(() => {
-        return response.status(505).send();
-      });
-
+    .where("id", id)
+    .select("ong_id")
+    .first()
+    .catch(() => {
+      return response.status(505).send();
+    });
+    
     if (incident.ong_id !== ong_id) {
       return response.status(401).json({ error: "Não permitido!" });
     }
