@@ -1,5 +1,13 @@
 input {
-    margin-top: 10px;
-    margin-left: 16px;
-    padding-left: 10px;
+    padding-left: 16px;
+    height: 24px;
+    width: 80%;
+    background: #f0f0f0;
+    border-color: #fdc0c0;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+input:hover {
+    border-color: #ff8282;
 }

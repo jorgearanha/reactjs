@@ -9,7 +9,7 @@ function App() {
   const [username, setUsername] = useState("");
 
   return (
-    <div className="App">
+    <div className="app-container">
       <UserInput changeUsername={setUsername} />
       <UserOutput username={username} />
     </div>
