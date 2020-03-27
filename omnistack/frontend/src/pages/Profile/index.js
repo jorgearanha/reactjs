@@ -22,7 +22,7 @@ const Profile = () => {
       .then(response => {
         setIncidents(response.data);
       });
-  }, [ongId]); // Não seria melhor adicionar ao Array 
+  }); // Não seria melhor adicionar ao Array 
   // o incidents para facilitar a atualização da tela?
 
   const handleDeleteIncident = async id => {
@@ -31,7 +31,7 @@ const Profile = () => {
         headers: { Authorization: ongId }
       });
 
-      setIncidents(incidents.filter( incident => incident.id !== id ));
+      // setIncidents(incidents.filter( incident => incident.id !== id ));
     } catch (err) {
       alert("Erro ao deletar caso, tente novamente.");
     }

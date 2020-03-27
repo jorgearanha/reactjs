@@ -1,0 +1,21 @@
+.container-card-movimentacao {
+    width: 180px;
+    height: 100px;
+    margin: 16px;
+    position: relative;
+}
+
+.container-card-movimentacao p {
+    font-size: 14px;
+    font-weight: 500;
+    text-shadow: none;
+}
+
+.container-card-movimentacao p + p + p{
+    font-size: 11px;
+    position: absolute;
+    font-weight: 400;
+
+    bottom: 0px;
+    right: 10px;
+}

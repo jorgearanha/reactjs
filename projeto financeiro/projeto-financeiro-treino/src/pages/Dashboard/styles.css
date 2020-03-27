@@ -1,0 +1,11 @@
+.container-dashboard {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.container-dashboard .container-movimentacoes {
+    margin-top: 30px;
+    display: flex;
+    flex-flow: row wrap;
+}
