@@ -1,22 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import CurrencyInput from "react-currency-input";
 
 import "./styles.css";
-import { useState } from "react";
+
+import logoImg from "../../assets/piggy-bank.svg";
+import api from "../../services/api";
 
 const NovaMovimentacao = () => {
   const history = useHistory();
 
   const categorias = ["alimentação", "entretenimento", "transporte", "salário"];
 
+  const [descricao, setDescricao] = useState("");
   const [valor, setValor] = useState(0);
+  const [tipo, setTipo] = useState("saida");
+  const [data_venc, setData] = useState(new Date().toISOString().slice(0, 10));
+  const [categoria, setCategoria] = useState(categorias[0]);
+
+  const handleNovaMovimentacao = e => {
+    e.preventDefault();
+
+    const saida = tipo === "saida";
+    
+    const movimentacao = {descricao, valor, saida, data_venc, categoria};
+    
+
+    try {
+      api.post("/movimentacao", movimentacao)
+      history.push("/");
+    } catch (error) {
+      alert("Erro ao tentar salvar movimentacao, tente novamente.")
+    }
+
+  };
 
   return (
     <div className="container-nova-movimentacao">
       <div className="container-card card">
         <section className="cadastro-info">
+          <img src={logoImg} alt="Controle financeiro" />
+
           <h1>Nova movimentação</h1>
 
           <p>
@@ -24,23 +49,33 @@ const NovaMovimentacao = () => {
             informações ao lado para uma melhor experiência.
           </p>
 
-          <Link to="/"><FiArrowLeft size={12} /> Voltar para o Dashboard</Link>
-
+          <Link to="/">
+            <FiArrowLeft size={12} /> Voltar para o Dashboard
+          </Link>
         </section>
+
         <div className="form">
-          <form>
-            <input placeholder="Descrição" className="descricao" />
+          <form onSubmit={handleNovaMovimentacao}>
+            <input
+              value={descricao}
+              onChange={e => setDescricao(e.target.value)}
+              placeholder="Descrição"
+              className="descricao"
+            />
 
             <div className="grupo">
               <CurrencyInput
                 value={valor}
-                onChangeEvent={e => setValor(e.target.value)}
+                onChangeEvent={(event, maskedvalue, floatvalue) => setValor(floatvalue)}
                 prefix="R$ "
                 decimalSeparator=","
                 thousandSeparator="."
               />
 
-              <select>
+              <select
+                defaultValue={tipo}
+                onChange={e => setTipo(e.target.value)}
+              >
                 <option value="entrada">entrada</option>
                 <option value="saida">saída</option>
               </select>
@@ -49,12 +84,18 @@ const NovaMovimentacao = () => {
             <div className="grupo">
               <input
                 type="date"
-                value={new Date().toISOString().slice(0, 10)}
+                onChange={e => setData(e.target.value)}
+                value={data_venc}
               />
 
-              <select>
+              <select
+                defaultValue={categoria}
+                onChange={e => setCategoria(e.target.value)}
+              >
                 {categorias.map(categoria => (
-                  <option value={categoria}>{categoria}</option>
+                  <option key={categoria} value={categoria}>
+                    {categoria}
+                  </option>
                 ))}
               </select>
             </div>

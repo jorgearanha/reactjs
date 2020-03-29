@@ -1,0 +1,44 @@
+{
+  "movimentacao": [
+    {
+      "id": 1,
+      "descricao": "Salario Mayara",
+      "valor": 5342,
+      "saida": false,
+      "data_venc": "2020-1-20",
+      "data_fim": "2020-1-20",
+      "categoria": "salario"
+    },
+    {
+      "id": 2,
+      "descricao": "Salario Jorge",
+      "valor": 1800,
+      "saida": false,
+      "data_venc": "2020-1-20",
+      "data_fim": "2020-1-20",
+      "categoria": "salario"
+    },
+    {
+      "descricao": "Depesa",
+      "valor": 357.98,
+      "saida": true,
+      "data_venc": "2020-03-28",
+      "categoria": "alimentação",
+      "id": 3
+    },
+    {
+      "descricao": "Luz",
+      "valor": 90,
+      "saida": true,
+      "data_venc": "2020-03-27",
+      "categoria": "alimentação",
+      "id": 4
+    }
+  ],
+  "categoria": [
+    {
+      "id": 1,
+      "nome": "salario"
+    }
+  ]
+}

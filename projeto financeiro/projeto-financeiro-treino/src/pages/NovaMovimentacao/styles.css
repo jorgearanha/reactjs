@@ -6,12 +6,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 .container-nova-movimentacao .container-card {
   width: 100%;
   max-width: 1120px;
-  min-height: 400px;
+  min-height: 500px;
 
   display: flex;
   flex-flow: row wrap;
@@ -21,11 +22,24 @@
 
 .container-nova-movimentacao .container-card .cadastro-info {
   width: 100%;
-  max-width: 450px;
+  max-width: 400px;
   margin: 20px 0;
+
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-nova-movimentacao .container-card .cadastro-info img{
+  max-width: 200px;
+  margin-bottom: 20px;
+
+  opacity: 0.7;
 }
 
 .container-nova-movimentacao .container-card .cadastro-info p {
+  text-align: center;
   margin: 20px 0;
 }
 

@@ -1,21 +1,29 @@
 .container-card-movimentacao {
-    width: 180px;
-    height: 100px;
-    margin: 16px;
-    position: relative;
+  width: 180px;
+  height: 100px;
+  margin: 16px;
+  position: relative;
+}
+
+.container-card-movimentacao.entrada {
+    box-shadow: 0 0 50px darkblue;
+}
+
+.container-card-movimentacao.saida {
+    box-shadow: 0 0 50px crimson;
 }
 
 .container-card-movimentacao p {
-    font-size: 14px;
-    font-weight: 500;
-    text-shadow: none;
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: none;
 }
 
-.container-card-movimentacao p + p + p{
-    font-size: 11px;
-    position: absolute;
-    font-weight: 400;
+.container-card-movimentacao p + p + p {
+  font-size: 11px;
+  position: absolute;
+  font-weight: 400;
 
-    bottom: 0px;
-    right: 10px;
+  bottom: 0px;
+  right: 10px;
 }
