@@ -33,12 +33,48 @@
       "data_venc": "2020-03-27",
       "categoria": "alimentação",
       "id": 4
+    },
+    {
+      "descricao": "Mercadinho",
+      "valor": 20,
+      "saida": true,
+      "data_venc": "2020-03-29",
+      "categoria": "alimentação",
+      "id": 5
+    },
+    {
+      "descricao": "Restituição",
+      "valor": 700,
+      "saida": false,
+      "data_venc": "2020-07-30",
+      "categoria": "imposto de renda",
+      "id": 6
+    },
+    {
+      "descricao": "sofá",
+      "valor": 1300,
+      "saida": true,
+      "data_venc": "2020-03-30",
+      "categoria": "infraestrutura",
+      "id": 7
     }
   ],
   "categoria": [
     {
       "id": 1,
       "nome": "salario"
+    },
+    {
+      "nome": "alimentação",
+      "id": 2
+    },
+    {
+      "nome": "imposto de renda",
+      "id": 3
+    },
+    {
+      "nome": "infraestrutura",
+      "id": 4
     }
   ]
 }

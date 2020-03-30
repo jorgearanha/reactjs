@@ -16,13 +16,15 @@ p {
   margin: 6px 0;
 }
 
-input, select, button {
+input,
+select,
+button {
   width: 100%;
   height: 40px;
   margin: 6px 0;
   font-size: 18px;
   border-radius: 8px;
-  border:2px solid #836fff;
+  border: 2px solid #836fff;
   color: rgb(54, 0, 92);
   padding-left: 8px;
   padding-top: auto;
@@ -30,9 +32,21 @@ input, select, button {
   transition: all 0.5s;
 }
 
-input:hover, select:hover, button:hover {
-  border-color: #4B0082;
-  color: #4B0082;
+.react-select__control {
+  margin: 0;
+  border: 2px solid #836fff !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.5s !important;
+  color: rgb(54, 0, 92) !important;
+}
+
+input:hover,
+select:hover,
+button:hover,
+.react-select__control:hover {
+  border-color: #4b0082 !important;
+  color: #4b0082 !important;
 }
 
 .card {
@@ -43,4 +57,49 @@ input:hover, select:hover, button:hover {
   padding: 10px;
   box-shadow: 0 0 100px rgba(138, 43, 226, 0.4);
   border-radius: 8px;
+}
+
+.container-nova-movimentacao
+  .container-card
+  .form
+  .grupo
+  .react-select
+  .react-select__control,
+.container-nova-movimentacao
+  .container-card
+  .form
+  .grupo
+  .react-select
+  .react-select__value-container,
+.container-nova-movimentacao
+  .container-card
+  .form
+  .grupo
+  .react-select
+  .react-select__value-container
+  .react-select__placeholder,
+.container-nova-movimentacao
+  .container-card
+  .form
+  .grupo
+  .react-select
+  .react-select__value-container
+  .react-select__input {
+  width: 100%;
+  height: 100%;
+  line-height: 40px;
+  position: relative;
+}
+
+.container-nova-movimentacao
+  .container-card
+  .form
+  .grupo
+  .react-select
+  .react-select__value-container
+  .react-select__single-value {
+  width: 100%;
+  height: 100%;
+  line-height: 40px;
+  position: sticky;
 }

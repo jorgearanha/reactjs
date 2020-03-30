@@ -31,7 +31,7 @@
   align-items: center;
 }
 
-.container-nova-movimentacao .container-card .cadastro-info img{
+.container-nova-movimentacao .container-card .cadastro-info img {
   max-width: 200px;
   margin-bottom: 20px;
 
@@ -51,8 +51,8 @@
 }
 
 .container-nova-movimentacao .container-card .cadastro-info a:hover {
-    opacity: 0.8;
-    text-shadow: none;
+  opacity: 0.8;
+  text-shadow: none;
 }
 
 .container-nova-movimentacao .container-card .form {
@@ -74,9 +74,12 @@
 }
 
 .container-nova-movimentacao .container-card .form .grupo select,
-.container-nova-movimentacao .container-card .form .grupo input {
+.container-nova-movimentacao .container-card .form .grupo input,
+.container-nova-movimentacao .container-card .form .grupo .react-select {
+  width: 100%;
   max-width: 180px;
   margin-top: 20px;
+  height: 40px;
 }
 
 .container-nova-movimentacao .container-card .form form button {

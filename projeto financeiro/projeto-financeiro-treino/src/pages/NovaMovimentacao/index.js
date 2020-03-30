@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import CurrencyInput from "react-currency-input";
+import CreatableSelect from "react-select/creatable";
 
 import "./styles.css";
 
@@ -11,29 +12,60 @@ import api from "../../services/api";
 const NovaMovimentacao = () => {
   const history = useHistory();
 
-  const categorias = ["alimentação", "entretenimento", "transporte", "salário"];
+  useEffect(() => {
+    api.get("/categoria").then(response => setCategorias(response.data));
+  }, []);
 
   const [descricao, setDescricao] = useState("");
   const [valor, setValor] = useState(0);
   const [tipo, setTipo] = useState("saida");
   const [data_venc, setData] = useState(new Date().toISOString().slice(0, 10));
-  const [categoria, setCategoria] = useState(categorias[0]);
+  const [categoria, setCategoria] = useState(null);
+  const [categorias, setCategorias] = useState([]);
 
-  const handleNovaMovimentacao = e => {
+  const options = categorias.map(categoria => ({
+    label: categoria.nome,
+    value: categoria.nome
+  }));
+
+  const handleNovaMovimentacao = async e => {
     e.preventDefault();
 
     const saida = tipo === "saida";
-    
-    const movimentacao = {descricao, valor, saida, data_venc, categoria};
-    
+
+    const movimentacao = {
+      descricao,
+      valor,
+      saida,
+      data_venc,
+      categoria: categoria.value.toLowerCase()
+    };
+
+    if (categoria?.__isNew__ === true)
+      createCategoria(categoria.value.toLowerCase());
 
     try {
-      api.post("/movimentacao", movimentacao)
+      await api.post("/movimentacao", movimentacao);
       history.push("/");
     } catch (error) {
-      alert("Erro ao tentar salvar movimentacao, tente novamente.")
+      alert("Erro ao tentar salvar movimentacao, tente novamente.");
     }
+  };
 
+  const createCategoria = async value => {
+    try {
+      await api.post("/categoria", { nome: value });
+    } catch (error) {
+      alert("Erro ao tentar salvar movimentacao, tente novamente.");
+    }
+  };
+
+  const handleChange = (newValue, actionMeta) => {
+    console.group("Value Changed");
+    console.log(newValue);
+    console.log(`action: ${actionMeta.action}`);
+    console.groupEnd();
+    setCategoria(newValue);
   };
 
   return (
@@ -66,7 +98,9 @@ const NovaMovimentacao = () => {
             <div className="grupo">
               <CurrencyInput
                 value={valor}
-                onChangeEvent={(event, maskedvalue, floatvalue) => setValor(floatvalue)}
+                onChangeEvent={(event, maskedvalue, floatvalue) =>
+                  setValor(floatvalue)
+                }
                 prefix="R$ "
                 decimalSeparator=","
                 thousandSeparator="."
@@ -88,16 +122,14 @@ const NovaMovimentacao = () => {
                 value={data_venc}
               />
 
-              <select
-                defaultValue={categoria}
-                onChange={e => setCategoria(e.target.value)}
-              >
-                {categorias.map(categoria => (
-                  <option key={categoria} value={categoria}>
-                    {categoria}
-                  </option>
-                ))}
-              </select>
+              <CreatableSelect
+                isClearable
+                onChange={handleChange}
+                options={options}
+                placeholder="Categoria"
+                className="react-select"
+                classNamePrefix="react-select"
+              />
             </div>
             <button type="submit">Criar</button>
           </form>
