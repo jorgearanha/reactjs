@@ -4,10 +4,10 @@ import { FiArrowLeft } from "react-icons/fi";
 import CurrencyInput from "react-currency-input";
 import CreatableSelect from "react-select/creatable";
 
-import "./styles.css";
-
 import logoImg from "../../assets/piggy-bank.svg";
 import api from "../../services/api";
+
+import "./styles.css";
 
 const NovaMovimentacao = () => {
   const history = useHistory();

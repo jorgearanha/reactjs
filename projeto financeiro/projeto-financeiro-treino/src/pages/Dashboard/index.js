@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { FiPlusCircle } from "react-icons/fi";
 
-import "./styles.css";
-
 import CardInfoGerais from "../../components/CardInfoGerais";
 import CardMovimentacao from "../../components/CardMovimentacao";
 import api from "../../services/api";
+
+import "./styles.css";
 
 const Dashboard = () => {
   const [movimentacoes, setMovimentacoes] = useState([]);
