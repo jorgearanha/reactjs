@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, useParams } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 import CurrencyInput from "react-currency-input";
-import CreatableSelect from "react-select/creatable";
 
 import logoImg from "../../assets/piggy-bank.svg";
 import api from "../../services/api";
@@ -11,62 +10,94 @@ import "./styles.css";
 
 const NovaMovimentacao = () => {
   const history = useHistory();
+  const params = useParams();
 
   useEffect(() => {
-    api.get("/categoria").then(response => setCategorias(response.data));
+    const {id, flag} = params;
+
+    if (!!id) {
+        api.get(flag + "/referencia/" + id).then(response => init(response.data, flag));
+    }
   }, []);
 
   const [descricao, setDescricao] = useState("");
   const [valor, setValor] = useState(0);
   const [tipo, setTipo] = useState("saida");
-  const [data_venc, setData] = useState(new Date().toISOString().slice(0, 10));
-  const [categoria, setCategoria] = useState(null);
-  const [categorias, setCategorias] = useState([]);
+  const [referencia, setReferencia] = useState("");
+  const [data, setData] = useState(new Date().toISOString().slice(0, 10));
 
-  const options = categorias.map(categoria => ({
-    label: categoria.nome,
-    value: categoria.nome
-  }));
+  const init = (res, tipo) => {
+    if (res.Count >= 1) {
+      const {descricao, valor, data_recebimento, data_vencimento, referencia} = res.Items[0];
+      const data = data_vencimento ? data_vencimento : data_recebimento;
+      // const dataArray = data.split("-");
+
+      setDescricao(descricao);
+      setValor(valor.replace('.', ','));
+      setTipo(tipo == 'saidas' ? 'saida' : 'entrada');
+      setData(data);
+      setReferencia(referencia);
+      // setData(new Date(dataArray[0], dataArray[1], dataArray[2]).toISOString().slice(0, 10));
+    }
+  }
 
   const handleNovaMovimentacao = async e => {
     e.preventDefault();
 
     const saida = tipo === "saida";
 
-    const movimentacao = {
+    if (saida) {
+      await saveSaida();
+    } else {
+      await saveEntrada();
+    }
+    
+  };
+
+  const saveEntrada = async () => {
+    const entrada = {
       descricao,
-      valor,
-      saida,
-      data_venc,
-      categoria: categoria.value.toLowerCase()
+      valor: valor.toString().replace(',', '.'),
+      data_recebimento: data,
+      referencia: data.substring(0, 4) + data.substring(5, 7)
     };
 
-    if (categoria?.__isNew__ === true)
-      createCategoria(categoria.value.toLowerCase());
-
     try {
-      await api.post("/movimentacao", movimentacao);
+      if (!!params.id) {
+        entrada.id_code = params.id;
+        entrada.referencia = referencia;
+        await api.put("/entradas", entrada);
+      } else {
+        await api.post("/entradas", entrada);
+      }
       history.push("/");
     } catch (error) {
       alert("Erro ao tentar salvar movimentacao, tente novamente.");
     }
-  };
+  }
 
-  const createCategoria = async value => {
+  const saveSaida = async () => {
+    const saida = {
+      descricao,
+      valor: valor.toString().replace(',', '.'),
+      data_vencimento: data,
+      referencia: data.substring(0, 4) + data.substring(5, 7)
+    };
+
     try {
-      await api.post("/categoria", { nome: value });
+      if (!!params.id) {
+        saida.id_code = params.id;
+        saida.referencia = referencia;
+        await api.put("/saidas", saida);
+      } else {
+        await api.post("/saidas", saida);
+      }
+      history.push("/");
     } catch (error) {
+      console.log(error);
       alert("Erro ao tentar salvar movimentacao, tente novamente.");
     }
-  };
-
-  const handleChange = (newValue, actionMeta) => {
-    console.group("Value Changed");
-    console.log(newValue);
-    console.log(`action: ${actionMeta.action}`);
-    console.groupEnd();
-    setCategoria(newValue);
-  };
+  }
 
   return (
     <div className="container-nova-movimentacao">
@@ -119,19 +150,10 @@ const NovaMovimentacao = () => {
               <input
                 type="date"
                 onChange={e => setData(e.target.value)}
-                value={data_venc}
-              />
-
-              <CreatableSelect
-                isClearable
-                onChange={handleChange}
-                options={options}
-                placeholder="Categoria"
-                className="react-select"
-                classNamePrefix="react-select"
+                value={data}
               />
             </div>
-            <button type="submit">Criar</button>
+            <button type="submit">{!!params.id ? 'Alterar' : 'Criar'}</button>
           </form>
         </div>
       </div>

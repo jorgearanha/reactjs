@@ -27,3 +27,13 @@
   bottom: 0px;
   right: 10px;
 }
+
+.container-card-movimentacao a.icon{
+  cursor: pointer;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}

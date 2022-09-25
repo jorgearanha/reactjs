@@ -16,7 +16,7 @@ const Dashboard = () => {
   const history = useHistory();
 
   useEffect(() => {
-    api.get("/movimentacao").then(response => setMovimentacoes(response.data));
+    loadMovimentacoes();
   }, []);
 
   useEffect(() => {
@@ -25,30 +25,45 @@ const Dashboard = () => {
 
     movimentacoes.forEach(movimentacao => {
       movimentacao.saida
-        ? (sai += movimentacao.valor)
-        : (ent += movimentacao.valor);
+        ? (sai += Number(movimentacao.valor))
+        : (ent += Number(movimentacao.valor));
     });
 
     setEntradas(ent);
     setSaidas(sai);
   }, [movimentacoes]);
 
+  const loadMovimentacoes = () => {
+    Promise.all([api.get("/entradas"), api.get("/saidas")]).then(([ent, sai]) => {
+      ent.data.Items.forEach(i => i.saida = false);
+      sai.data.Items.forEach(i => i.saida = true);
+      setMovimentacoes([...ent.data.Items, ...sai.data.Items]);
+      console.log([...ent.data.Items, ...sai.data.Items]);
+    })
+  }
+
   const handleNovaMovimentacao = () => {
     history.push("/nova-movimentacao");
   };
 
+  const handleRemove = (id) => {
+    setMovimentacoes(movimentacoes.filter((a) => a.id_code !== id));
+  }
+
   return (
     <div className="container-dashboard">
       <CardInfoGerais entradas={entradas} saidas={saidas} />
-
+      {console.log(movimentacoes)}
       <div className="container-movimentacoes">
         {movimentacoes.map(movimentacao => (
           <CardMovimentacao
-            key={movimentacao.descricao}
+            key={movimentacao.id_code}
             descricao={movimentacao.descricao}
             saida={movimentacao.saida}
             valor={movimentacao.valor}
             categoria={movimentacao.categoria}
+            id_code={movimentacao.id_code}
+            reload={loadMovimentacoes}
           />
         ))}
 

@@ -10,6 +10,7 @@ const Routes = () => {
     <Switch>
       <Route exact path="/" component={Dashboard} />
       <Route path="/nova-movimentacao" component={NovaMovimentacao} />
+      <Route path="/editar-movimentacao/:flag/:id" component={NovaMovimentacao} />
     </Switch>
   );
 };
